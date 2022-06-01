@@ -70,12 +70,7 @@ export default function Order() {
         dispatch({ type: "clearBasket" });
         nav("/", { state: { msg: { success: "Zamówienie zostało wysłane" } } });
       } else {
-        setResErrorMsg({
-          first_name: res.error.violations.first_name,
-          last_name: res.error.violations.last_name,
-          city: res.error.violations.city,
-          zip_code: res.error.violations.zip_code,
-        });
+        setResErrorMsg(res.error.violations);
       }
     } else {
       setResErrorMsg({
@@ -84,9 +79,7 @@ export default function Order() {
     }
   };
 
-  if (!basket.length && !userOrderData) {
-    return <Navigate to="/" />;
-  }
+  if (!basket.length && !userOrderData) return <Navigate to="/" />;
   return (
     <Wrapper>
       <Title>Zamówienie</Title>

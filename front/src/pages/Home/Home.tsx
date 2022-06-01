@@ -27,11 +27,7 @@ export default function Home() {
     });
     if (res) {
       setBooksData(res.data);
-      setMetadata({
-        page: res.metadata.page,
-        records_per_page: res.metadata.records_per_page,
-        total_records: res.metadata.total_records,
-      });
+      setMetadata(res.metadata);
       setLoading(false);
     }
   };
