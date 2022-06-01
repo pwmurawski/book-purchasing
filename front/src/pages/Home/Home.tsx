@@ -11,6 +11,7 @@ import {
 import { Wrapper, Title, BooksContainer, SuccesMsg } from "./styles/HomeStyles";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [booksData, setBooksData] = useState<IBookData[]>([]);
   const [metadata, setMetadata] = useState<IMetadata>();
   const [page, setPage] = useState(1);
@@ -24,18 +25,22 @@ export default function Home() {
     const res = await fetchApi<IResponseBook>(`/books?page=${page}`, {
       method: "GET",
     });
-    setBooksData(res.data);
-    setMetadata({
-      page: res.metadata.page,
-      records_per_page: res.metadata.records_per_page,
-      total_records: res.metadata.total_records,
-    });
+    if (res) {
+      setBooksData(res.data);
+      setMetadata({
+        page: res.metadata.page,
+        records_per_page: res.metadata.records_per_page,
+        total_records: res.metadata.total_records,
+      });
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     getBooks();
   }, [page]);
 
+  if (loading) return <h1>Loading ...</h1>;
   return (
     <Wrapper>
       <Title>Książki</Title>

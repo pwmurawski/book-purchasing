@@ -15,6 +15,7 @@ export const Header = styled.header`
   height: ${headerHeight};
   box-shadow: 0px 2px 2px lightgray;
   background-color: white;
+  z-index: 1;
 `;
 
 export const Main = styled.main`

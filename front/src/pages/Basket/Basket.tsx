@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../app/hooks";
 import BooksInBasket from "../../components/BooksInBasket/BooksInBasket";
 import Summary from "../../components/Summary/Summary";
-import { IBasket } from "../../interfaces/interfaces";
-import { IState } from "../../interfaces/reducerInterfaces";
 import {
   Wrapper,
   Title,
@@ -11,7 +9,7 @@ import {
 } from "./styles/BasketStyles";
 
 export default function Basket() {
-  const basket = useSelector<IState, IBasket[]>((state) => state.basket);
+  const basket = useAppSelector((store) => store.basketReducer.basket);
 
   return (
     <Wrapper>

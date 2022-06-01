@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import OrderForm from "../../components/OrderForm/OrderForm";
 import Summary from "../../components/Summary/Summary";
 import fetchApi from "../../helpers/fetchApi";
 import {
-  IBasket,
   IOrder,
   IResponseError,
   IResponseOrder,
   IUserOrderData,
 } from "../../interfaces/interfaces";
-import { IState } from "../../interfaces/reducerInterfaces";
 import {
   Wrapper,
   Title,
@@ -28,14 +26,15 @@ interface IResErrorMsg {
   last_name?: string;
   city?: string;
   zip_code?: string;
+  error?: string;
 }
 
 export default function Order() {
   const [userOrderData, setUserOrderData] = useState<IUserOrderData>();
   const [resErrorMsg, setResErrorMsg] = useState<IResErrorMsg>();
   const [isError, setIsError] = useState(true);
-  const basket = useSelector<IState, IBasket[]>((state) => state.basket);
-  const dispatch = useDispatch();
+  const basket = useAppSelector((store) => store.basketReducer.basket);
+  const dispatch = useAppDispatch();
   const nav = useNavigate();
 
   const getUserOrderData = (data: IUserOrderData) => {
@@ -66,15 +65,21 @@ export default function Order() {
       body: JSON.stringify(order),
     });
 
-    if (!res.error?.message) {
-      dispatch({ type: "clearBasket" });
-      nav("/", { state: { msg: { success: "Zamówienie zostało wysłane" } } });
+    if (res) {
+      if (!res.error?.message) {
+        dispatch({ type: "clearBasket" });
+        nav("/", { state: { msg: { success: "Zamówienie zostało wysłane" } } });
+      } else {
+        setResErrorMsg({
+          first_name: res.error.violations.first_name,
+          last_name: res.error.violations.last_name,
+          city: res.error.violations.city,
+          zip_code: res.error.violations.zip_code,
+        });
+      }
     } else {
       setResErrorMsg({
-        first_name: res.error.violations.first_name,
-        last_name: res.error.violations.last_name,
-        city: res.error.violations.city,
-        zip_code: res.error.violations.zip_code,
+        error: "Błąd serwera",
       });
     }
   };
@@ -102,6 +107,7 @@ export default function Order() {
           />
           {resErrorMsg ? (
             <ErrorMsg>
+              {resErrorMsg.error && <Err>{resErrorMsg.error}</Err>}
               {resErrorMsg.first_name && <Err>{resErrorMsg.first_name}</Err>}
               {resErrorMsg.last_name && <Err>{resErrorMsg.last_name}</Err>}
               {resErrorMsg.city && <Err>{resErrorMsg.city}</Err>}

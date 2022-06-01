@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../../app/hooks";
 import { IBookData } from "../../../interfaces/interfaces";
 import {
   Wrapper,
@@ -25,7 +25,7 @@ export default function Book({
   cover_url,
 }: IBookData) {
   const [isClickAddBasket, setIsClickAddBasket] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addToBasket = () => {
     dispatch({

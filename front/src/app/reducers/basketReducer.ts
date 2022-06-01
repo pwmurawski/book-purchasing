@@ -1,8 +1,7 @@
 /* eslint-disable default-param-last */
-import { createStore } from "redux";
-import isBookInBasket from "./helpers/isBookInBasket";
-import { IBasket } from "./interfaces/interfaces";
-import { Action, IState } from "./interfaces/reducerInterfaces";
+import isBookInBasket from "../../helpers/isBookInBasket";
+import { IBasket } from "../../interfaces/interfaces";
+import { Action, IState } from "../../interfaces/reducerInterfaces";
 
 const initialState = {
   basket: [],
@@ -54,6 +53,4 @@ const basketReducer = (state: IState = initialState, action: Action) => {
   }
 };
 
-const store = createStore(basketReducer);
-
-export default store;
+export default basketReducer;

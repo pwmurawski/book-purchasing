@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../../app/hooks";
 import {
   Wrapper,
   Img,
@@ -35,7 +35,7 @@ export default function BookInBasket({
   cover_url,
   quantity,
 }: IBookInBasketProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const deleteBookFromBasket = () => {
     dispatch({ type: "deleteBook", bookId: id });

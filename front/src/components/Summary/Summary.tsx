@@ -1,12 +1,10 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../app/hooks";
 import numberOfBooks from "../../helpers/numberOfBooks";
 import sumAllPrice from "../../helpers/sumAllPrice";
-import { IBasket } from "../../interfaces/interfaces";
-import { IState } from "../../interfaces/reducerInterfaces";
 import { Wrapper, Row, Title, Text, Value } from "./styles/SummaryStyles";
 
 export default function Summary() {
-  const basket = useSelector<IState, IBasket[]>((state) => state.basket);
+  const basket = useAppSelector((store) => store.basketReducer.basket);
 
   return (
     <Wrapper>
