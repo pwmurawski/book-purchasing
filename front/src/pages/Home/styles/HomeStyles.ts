@@ -32,4 +32,5 @@ export const SuccesMsg = styled.div`
   border-radius: 10px;
   color: white;
   font-weight: 700;
+  z-index: 1;
 `;
