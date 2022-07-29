@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import maxPage from "../../helpers/maxPage";
+import usePagination from "../../hooks/usePagination";
 import { IMetadata } from "../../interfaces/interfaces";
 import { Wrapper, CurrentPage, Next, Prev } from "./styles/PaginationStyles";
 
@@ -13,17 +14,7 @@ export default function Pagination({
   metadata,
   currentPage,
 }: IPaginationProps) {
-  const [page, setPage] = useState(1);
-
-  const prevHandler = () => {
-    setPage((state) => state - 1);
-    window.scrollTo(0, 0);
-  };
-
-  const nextHandler = () => {
-    setPage((state) => state + 1);
-    window.scrollTo(0, 0);
-  };
+  const [page, prevHandler, nextHandler] = usePagination();
 
   useEffect(() => {
     currentPage(page);

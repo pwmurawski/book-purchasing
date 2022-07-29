@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-const fetchApi = async <T>(url: string, options: RequestInit | undefined) => {
+const api = async <T>(url: string, options: RequestInit | undefined) => {
   try {
     const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -11,4 +11,4 @@ const fetchApi = async <T>(url: string, options: RequestInit | undefined) => {
   return undefined;
 };
 
-export default fetchApi;
+export default api;

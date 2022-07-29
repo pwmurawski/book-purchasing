@@ -2,27 +2,17 @@
 import { IUserOrderData } from "./interfaces";
 import { Rules } from "./validationRulesInterfaces";
 
+export interface IFormField {
+  value: string;
+  error?: string;
+  rules: Rules;
+}
+
 export interface IOrderForm {
-  firstName: {
-    value: string;
-    error?: string;
-    rules: Rules;
-  };
-  lastName: {
-    value: string;
-    error?: string;
-    rules: Rules;
-  };
-  city: {
-    value: string;
-    error?: string;
-    rules: Rules;
-  };
-  code: {
-    value: string;
-    error?: string;
-    rules: Rules;
-  };
+  firstName: IFormField;
+  lastName: IFormField;
+  city: IFormField;
+  code: IFormField;
 }
 
 export type FormDataFieldNames = "firstName" | "lastName" | "city" | "code";

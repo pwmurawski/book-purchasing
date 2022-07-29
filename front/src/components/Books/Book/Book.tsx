@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../app/hooks";
+import useAddBookToBasket from "../../../hooks/useAddBookToBasket";
 import { IBookData } from "../../../interfaces/interfaces";
 import {
   Wrapper,
@@ -24,26 +23,15 @@ export default function Book({
   currency,
   cover_url,
 }: IBookData) {
-  const [isClickAddBasket, setIsClickAddBasket] = useState(false);
-  const dispatch = useAppDispatch();
-
-  const addToBasket = () => {
-    dispatch({
-      type: "addBook",
-      book: { id, title, author, price, pages, currency, cover_url },
-    });
-    setIsClickAddBasket(true);
-  };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsClickAddBasket(false);
-    }, 600);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [isClickAddBasket]);
+  const [isClickAddBasket, addToBasket] = useAddBookToBasket(
+    id,
+    title,
+    author,
+    price,
+    pages,
+    currency,
+    cover_url
+  );
 
   return (
     <Wrapper>

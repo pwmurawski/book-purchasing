@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Form } from "./styles/OrderFormStyles";
 import InputCustom from "../InputCustom/InputCustom";
-import { validate } from "../../helpers/validations";
 import {
-  FormDataFieldNames,
   IOrderForm,
   IOrderFormProps,
 } from "../../interfaces/OrderFormInterfaces";
+import useForm from "../../hooks/useForm";
 
 const initForm: IOrderForm = {
   firstName: {
     value: "",
-    rules: ["required", { rule: "min", length: 4 }],
+    rules: [{ rule: "min", length: 4 }, "required"],
   },
   lastName: {
     value: "",
-    rules: ["required", { rule: "min", length: 5 }],
+    rules: [{ rule: "min", length: 5 }, "required"],
   },
   city: {
     value: "",
@@ -23,25 +22,12 @@ const initForm: IOrderForm = {
   },
   code: {
     value: "",
-    rules: ["required", "zipCode"],
+    rules: ["zipCode", "required"],
   },
 };
 
 export default function OrderForm({ userOrderData, isError }: IOrderFormProps) {
-  const [formData, setFormData] = useState<IOrderForm>(initForm);
-
-  const changeHandler = (value: string, fieldName: FormDataFieldNames) => {
-    const error = validate(formData[fieldName].rules, value);
-
-    setFormData({
-      ...formData,
-      [fieldName]: {
-        ...formData[fieldName],
-        value,
-        error,
-      },
-    });
-  };
+  const [formData, changeHandler] = useForm(initForm);
 
   useEffect(() => {
     userOrderData({

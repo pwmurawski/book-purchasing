@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-interface ILocationState {
-  state?: {
-    msg?: {
-      success?: string;
-      error?: string;
-    };
-  };
-}
-
 interface IMsg {
   success?: string;
   error?: string;
 }
 
-const useDisplayMessage = () => {
+interface ILocationState {
+  state?: {
+    msg?: IMsg;
+  };
+}
+
+const useLocationMessage = () => {
   const [msg, setMsg] = useState<IMsg>({});
   const { state } = useLocation() as ILocationState;
 
@@ -34,9 +31,9 @@ const useDisplayMessage = () => {
     return () => {
       clearTimeout(timeOut);
     };
-  }, [state?.msg?.success, state?.msg?.error]);
+  }, [state?.msg]);
 
   return msg;
 };
 
-export default useDisplayMessage;
+export default useLocationMessage;

@@ -1,49 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Books from "../../components/Books/Books";
 import Pagination from "../../components/Pagination/Pagination";
-import fetchApi from "../../helpers/fetchApi";
-import useDisplayMessage from "../../hooks/useDisplayMessage";
-import {
-  IBookData,
-  IMetadata,
-  IResponseBook,
-} from "../../interfaces/interfaces";
+import useBooks from "../../hooks/useBooks";
+import useLocationMessage from "../../hooks/useLocationMessage";
 import { Wrapper, Title, BooksContainer, SuccesMsg } from "./styles/HomeStyles";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [booksData, setBooksData] = useState<IBookData[]>([]);
-  const [metadata, setMetadata] = useState<IMetadata>();
   const [page, setPage] = useState(1);
-  const msg = useDisplayMessage();
+  const msg = useLocationMessage();
+  const [booksData, metadata, loading] = useBooks(page);
 
-  const getCurrentPage = (currentPage: number) => {
-    setPage(currentPage);
-  };
-
-  const getBooks = async () => {
-    const res = await fetchApi<IResponseBook>(`/books?page=${page}`, {
-      method: "GET",
-    });
-    if (res) {
-      setBooksData(res.data);
-      setMetadata(res.metadata);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getBooks();
-  }, [page]);
-
-  if (loading) return <h1>Loading ...</h1>;
   return (
     <Wrapper>
+      {loading && <h1>Loading ...</h1>}
       <Title>Książki</Title>
       <BooksContainer>
         <Books booksData={booksData} />
       </BooksContainer>
-      <Pagination metadata={metadata} currentPage={getCurrentPage} />
+      <Pagination
+        metadata={metadata}
+        currentPage={(currentPage) => setPage(currentPage)}
+      />
       {msg.success ? <SuccesMsg>{msg.success}</SuccesMsg> : null}
     </Wrapper>
   );

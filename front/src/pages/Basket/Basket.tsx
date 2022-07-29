@@ -11,20 +11,20 @@ import {
 export default function Basket() {
   const basket = useAppSelector((store) => store.basketReducer.basket);
 
+  if (basket.length === 0)
+    return (
+      <Wrapper>
+        <Title>Koszyk</Title>
+        <p>Koszyk jest pusty</p>
+      </Wrapper>
+    );
   return (
     <Wrapper>
-      <Title>Koszyk</Title>
-      {basket.length !== 0 ? (
-        <>
-          <BookInBasketContainer>
-            <BooksInBasket booksData={basket} />
-          </BookInBasketContainer>
-          <Summary />
-          <SubmitLink to="/zamowienie">Dalej</SubmitLink>
-        </>
-      ) : (
-        <p>Koszyk jest pusty</p>
-      )}
+      <BookInBasketContainer>
+        <BooksInBasket booksData={basket} />
+      </BookInBasketContainer>
+      <Summary />
+      <SubmitLink to="/zamowienie">Dalej</SubmitLink>
     </Wrapper>
   );
 }
